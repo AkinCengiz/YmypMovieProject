@@ -18,11 +18,41 @@ public sealed class MovieDbContext : DbContext
     {
         modelBuilder.Entity<Movie>().Property(p => p.IMDB).HasPrecision(4, 2);
         modelBuilder.Entity<Movie>().Property(p => p.Name).HasMaxLength(100).IsRequired();
+        modelBuilder.Entity<Movie>().HasKey(p => p.Id);
+        modelBuilder.Entity<Movie>().HasOne(p => p.Category).WithMany(c => c.Movies).HasForeignKey(p => p.CategoryId);
+
+        modelBuilder.Entity<Category>().Property(c => c.Name).HasMaxLength(50).IsRequired();
+        modelBuilder.Entity<Category>().Property(c => c.Description).HasMaxLength(250);
         base.OnModelCreating(modelBuilder);
+
+
+
+        //SEED DATA
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Id = Guid.NewGuid(), Name = "Aksiyon" },
+            new Category { Id = Guid.NewGuid(), Name = "Komedi" },
+            new Category { Id = Guid.NewGuid(), Name = "Bilim Kurgu" },
+            new Category { Id = Guid.NewGuid(), Name = "Belgesel" },
+            new Category { Id = Guid.NewGuid(), Name = "Fantastik" },
+            new Category { Id = Guid.NewGuid(), Name = "Korku" }
+        );
+
+        //modelBuilder.Entity<Deneme>().HasData(
+        //    new Deneme { Id = Guid.NewGuid(), Name = "Deneme 1"  },
+        //    new Deneme { Id = Guid.NewGuid(), Name = "Deneme 2" },
+        //    new Deneme { Id = Guid.NewGuid(), Name = "Deneme 3" },
+        //    new Deneme { Id = Guid.NewGuid(), Name = "Deneme 4" }
+        //);
+
     }
+
+
 
     public DbSet<Actor> Actors { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Director> Directors { get; set; }
     public DbSet<Movie> Movies { get; set; }
+    //public DbSet<Deneme> Denemes { get; set; }
 }
+
+
