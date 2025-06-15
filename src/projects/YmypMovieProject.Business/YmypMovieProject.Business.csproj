@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Concrete\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\core\Core.Business\Core.Business.csproj" />
     <ProjectReference Include="..\YmypMovieProject.Entity\YmypMovieProject.Entity.csproj" />
   </ItemGroup>
