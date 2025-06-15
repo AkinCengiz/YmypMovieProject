@@ -14,4 +14,6 @@ public interface IGenericService<T> where T : class, IEntity, new()
     List<T> GetAll();
     T GetById(Guid id);
     IQueryable<T> GetQueryable();
+    List<T> GetByIsActive();
+    List<T> GetByIsDeleted();
 }

@@ -3,54 +3,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.DataAccess.Repositories.Abstract;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
 public sealed class ActorManager : IActorService
 {
+    private readonly IActorRepository _actorRepository;
+
+    public ActorManager(IActorRepository actorRepository)
+    {
+        _actorRepository = actorRepository;
+    }
+
     public List<Actor> GetAll()
     {
-        throw new NotImplementedException();
+        return _actorRepository.GetAll();
+    }
+
+    public List<Actor> GetAllByWithMovie()
+    {
+        return _actorRepository.GetQueryable().Include(a => a.Movies).ToList();
     }
 
     public List<Actor> GetByFirstName(string firstname)
     {
-        throw new NotImplementedException();
+        return _actorRepository.GetAll(a => a.FirstName == firstname);
     }
 
     public Actor GetByFullName(string firstname, string lastname)
     {
-        throw new NotImplementedException();
+        return _actorRepository.Get(a => a.FirstName == firstname && a.LastName == lastname);
     }
 
     public Actor GetById(Guid id)
     {
-        throw new NotImplementedException();
+        return _actorRepository.Get(a => a.Id == id);
+    }
+
+    public List<Actor> GetByIsActive()
+    {
+        return _actorRepository.GetAll(a => a.IsActive);
+    }
+
+    public List<Actor> GetByIsDeleted()
+    {
+        return _actorRepository.GetAll(a => a.IsDeleted);
     }
 
     public List<Actor> GetByLastName(string lastname)
     {
-        throw new NotImplementedException();
+        return _actorRepository.GetAll(a => a.LastName == lastname);
     }
 
     public IQueryable<Actor> GetQueryable()
     {
-        throw new NotImplementedException();
+        return _actorRepository.GetQueryable();
     }
 
     public void Insert(Actor entity)
     {
-        throw new NotImplementedException();
+        _actorRepository.Add(entity);
     }
 
     public void Modify(Actor entity)
     {
-        throw new NotImplementedException();
+        _actorRepository.Update(entity);
     }
 
     public void Remove(Actor entity)
     {
-        throw new NotImplementedException();
+        _actorRepository.Delete(entity);
     }
 }

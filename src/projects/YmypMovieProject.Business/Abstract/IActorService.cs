@@ -12,4 +12,5 @@ public interface IActorService : IGenericService<Actor>
     List<Actor> GetByFirstName(string firstname);
     List<Actor> GetByLastName(string lastname);
     Actor GetByFullName(string firstname, string lastname);
+    List<Actor> GetAllByWithMovie();
 }

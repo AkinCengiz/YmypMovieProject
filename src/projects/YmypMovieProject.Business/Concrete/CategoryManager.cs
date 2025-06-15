@@ -3,40 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.DataAccess.Repositories.Abstract;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
 public sealed class CategoryManager : ICategoryService
 {
-    //private readonly ICar
+    private readonly ICategoryRepository _categoryRepository;
+
+    public CategoryManager(ICategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
+
     public List<Category> GetAll()
     {
-        throw new NotImplementedException();
+        //_categoryRepository.GetQueryable().ToList();
+        //_categoryRepository.GetAll();
+        return _categoryRepository.GetAll();
     }
 
     public Category GetById(Guid id)
     {
-        throw new NotImplementedException();
+        return _categoryRepository.Get(c => c.Id == id);
     }
 
     public IQueryable<Category> GetQueryable()
     {
-        throw new NotImplementedException();
+        return _categoryRepository.GetQueryable();
+    }
+
+    public List<Category> GetByIsActive()
+    {
+        return _categoryRepository.GetAll(c => c.IsActive);
+    }
+
+    public List<Category> GetByIsDeleted()
+    {
+        return _categoryRepository.GetAll(c => c.IsDeleted);
     }
 
     public void Insert(Category entity)
     {
-        throw new NotImplementedException();
+        _categoryRepository.Add(entity);
     }
 
     public void Modify(Category entity)
     {
-        throw new NotImplementedException();
+        _categoryRepository.Update(entity);
     }
 
     public void Remove(Category entity)
     {
-        throw new NotImplementedException();
+        _categoryRepository.Delete(entity);
     }
 }
