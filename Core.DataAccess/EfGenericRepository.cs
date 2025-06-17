@@ -38,7 +38,9 @@ public abstract class EfGenericRepository<T,TContext> : IGenericRepository<T>
 
     public void Delete(T entity)
     {
-        _dbSet.Remove(entity);
+        //_dbSet.Remove(entity);
+        // Soft delete logic can be implemented here if needed
+        _dbSet.Update(entity);
         Context.SaveChanges();
     }
 

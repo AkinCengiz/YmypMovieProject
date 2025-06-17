@@ -22,6 +22,7 @@ public sealed class CategoryManager : ICategoryService
     {
         //_categoryRepository.GetQueryable().ToList();
         //_categoryRepository.GetAll();
+        //return _categoryRepository.GetAll(c => !c.IsDeleted);
         return _categoryRepository.GetAll();
     }
 
@@ -52,11 +53,14 @@ public sealed class CategoryManager : ICategoryService
 
     public void Modify(Category entity)
     {
+        entity.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
         _categoryRepository.Update(entity);
     }
 
     public void Remove(Category entity)
     {
+        entity.IsDeleted = true; // Soft delete logic
+        entity.IsActive = false; // Optionally set IsActive to false
         _categoryRepository.Delete(entity);
     }
 }

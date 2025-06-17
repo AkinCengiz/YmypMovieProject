@@ -10,11 +10,9 @@ public sealed class Category : BaseEntity
 {
     public Category()
     {
-        Name = string.Empty;
-        Description = string.Empty;
         Movies = new HashSet<Movie>();
     }
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
     public ICollection<Movie> Movies { get; set; }
 }
