@@ -12,11 +12,11 @@ public sealed class Director : BaseEntity
 
     public string LastName { get; set; }
 
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
-    public DateTime BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public ICollection<Movie> Movies { get; set; }
 }

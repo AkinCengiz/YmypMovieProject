@@ -73,4 +73,10 @@ public sealed class DirectorManager : IDirectorService
     {
         return _directorRepository.Get(d => d.FirstName == firstname && d.LastName == lastname);
     }
+
+    public List<Director> GetAllFullInfo()
+    {
+        return _directorRepository.GetQueryable()
+            .Include(d => d.Movies).ThenInclude(m => m.Category).ToList();
+    }
 }

@@ -12,6 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<MovieDbContext>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
 builder.Services.AddScoped<ICategoryRepository,EfCategoryRepository>();
+builder.Services.AddScoped<IMovieService, MovieManager>();
+builder.Services.AddScoped<IMovieRepository, EfMovieRepository>();
+builder.Services.AddScoped<IDirectorService, DirectorManager>();
+builder.Services.AddScoped<IDirectorRepository, EfDirectorRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -12,4 +12,5 @@ public interface IDirectorService : IGenericService<Director>
     List<Director> GetByFirstName(string firstname);
     List<Director> GetByLastName(string lastname);
     Director GetByFullName(string firstname, string lastname);
+    List<Director> GetAllFullInfo();
 }

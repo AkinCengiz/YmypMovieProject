@@ -43,9 +43,10 @@ public class CategoriesController : ControllerBase
         return Content("Kategori güncelleme işlemi başarılı...");
     }
 
-    [HttpDelete]
-    public IActionResult Delete(Category category)
+    [HttpDelete("{id}")]
+    public IActionResult Delete(Guid id)
     {
+        var category = _categoryService.GetById(id);
         _categoryService.Remove(category);
         return Content("Kategori silme işlemi başarılı...");
     }

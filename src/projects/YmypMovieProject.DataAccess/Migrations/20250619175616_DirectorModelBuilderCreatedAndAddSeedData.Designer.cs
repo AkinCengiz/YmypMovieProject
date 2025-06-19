@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YmypMovieProject.DataAccess.Contexts;
 
@@ -11,9 +12,11 @@ using YmypMovieProject.DataAccess.Contexts;
 namespace YmypMovieProject.DataAccess.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250619175616_DirectorModelBuilderCreatedAndAddSeedData")]
+    partial class DirectorModelBuilderCreatedAndAddSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,47 +117,47 @@ namespace YmypMovieProject.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("7fe0ac2b-fa60-4004-a579-c5967a1746a1"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4666),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9381),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Aksiyon"
                         },
                         new
                         {
-                            Id = new Guid("202f8985-4780-4b06-90b2-63e8b9709201"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4670),
+                            Id = new Guid("400e9115-4608-459f-8fab-c73bd0418631"),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9392),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Komedi"
                         },
                         new
                         {
-                            Id = new Guid("588cd130-ff5a-4722-b730-17747c25970b"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4672),
+                            Id = new Guid("74baf57b-0453-41e9-8490-956e67c8dd7c"),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9394),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Bilim Kurgu"
                         },
                         new
                         {
-                            Id = new Guid("307fdff0-0d73-4549-bd18-27719148db0d"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4673),
+                            Id = new Guid("f7164314-d69f-405e-a99d-57c2c324a32b"),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9396),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Belgesel"
                         },
                         new
                         {
-                            Id = new Guid("b3eb1edb-e1b6-4c09-832c-4822b03c929b"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4682),
+                            Id = new Guid("f64d6620-f5db-4227-8ead-205d2a5abb6d"),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9426),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fantastik"
                         },
                         new
                         {
-                            Id = new Guid("f7e4fe8f-c5e2-4227-aa92-d8f839bf1e8b"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4683),
+                            Id = new Guid("48e012c3-7b40-4b86-96d4-68979a2d2bd1"),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9429),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Korku"
@@ -208,7 +211,7 @@ namespace YmypMovieProject.DataAccess.Migrations
                         {
                             Id = new Guid("2950d635-d293-4c82-a9fb-f23f8cfa5956"),
                             BirthDate = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4772),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9509),
                             Description = "British-American film director, producer, and screenwriter.",
                             FirstName = "Christopher",
                             IsActive = true,
@@ -217,9 +220,9 @@ namespace YmypMovieProject.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3cbb8fab-b782-4886-8df1-f2ab18ebcfbf"),
+                            Id = new Guid("2ea0545e-5781-49e0-a645-d5ec6215e50e"),
                             BirthDate = new DateTime(1946, 12, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4778),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9517),
                             Description = "American film director, producer, and screenwriter.",
                             FirstName = "Steven",
                             IsActive = true,
@@ -228,9 +231,9 @@ namespace YmypMovieProject.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2b4ea311-6c84-41a2-8b95-45fc0213bcff"),
+                            Id = new Guid("77486892-ba48-456b-81a5-be2452424649"),
                             BirthDate = new DateTime(1942, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4782),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9519),
                             Description = "American film director, producer, screenwriter, and actor.",
                             FirstName = "Martin",
                             IsActive = true,
@@ -239,9 +242,9 @@ namespace YmypMovieProject.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fd4ac625-4fc6-4560-a08a-bc22950dd61b"),
+                            Id = new Guid("7a4122bf-c0cb-4e9f-9ca7-3d310a5e8c55"),
                             BirthDate = new DateTime(1963, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4783),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9522),
                             Description = "American filmmaker, actor, and screenwriter.",
                             FirstName = "Quentin",
                             IsActive = true,
@@ -250,9 +253,9 @@ namespace YmypMovieProject.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d6e74065-96e6-4de2-aedb-87b3c7ab55f9"),
+                            Id = new Guid("33d4ea44-b7ba-4d28-a12c-2de1d9f80c1e"),
                             BirthDate = new DateTime(1954, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4787),
+                            CreateAt = new DateTime(2025, 6, 19, 17, 56, 16, 448, DateTimeKind.Utc).AddTicks(9524),
                             Description = "Canadian filmmaker and environmental advocate.",
                             FirstName = "James",
                             IsActive = true,
@@ -274,17 +277,18 @@ namespace YmypMovieProject.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DirectorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal?>("IMDB")
+                    b.Property<decimal>("IMDB")
                         .HasPrecision(4, 2)
                         .HasColumnType("decimal(4,2)");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -298,7 +302,7 @@ namespace YmypMovieProject.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("PublishDate")
+                    b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdateAt")
@@ -311,47 +315,6 @@ namespace YmypMovieProject.DataAccess.Migrations
                     b.HasIndex("DirectorId");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("0ac626bd-a319-4e8d-b140-5efc0cb8c3f0"),
-                            CategoryId = new Guid("7fe0ac2b-fa60-4004-a579-c5967a1746a1"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4803),
-                            Description = "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
-                            DirectorId = new Guid("2950d635-d293-4c82-a9fb-f23f8cfa5956"),
-                            IMDB = 8.8m,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Inception",
-                            PublishDate = new DateTime(2010, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("cc37527a-3e0a-42f5-91e7-220cad83fa8e"),
-                            CategoryId = new Guid("7fe0ac2b-fa60-4004-a579-c5967a1746a1"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4810),
-                            Description = "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.",
-                            DirectorId = new Guid("2950d635-d293-4c82-a9fb-f23f8cfa5956"),
-                            IMDB = 9.0m,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "The Dark Knight",
-                            PublishDate = new DateTime(2008, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("bba4f115-686c-435b-9cfd-4fdbee5ec285"),
-                            CategoryId = new Guid("7fe0ac2b-fa60-4004-a579-c5967a1746a1"),
-                            CreateAt = new DateTime(2025, 6, 19, 18, 50, 1, 642, DateTimeKind.Utc).AddTicks(4814),
-                            Description = "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-                            DirectorId = new Guid("2950d635-d293-4c82-a9fb-f23f8cfa5956"),
-                            IMDB = 8.6m,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Interstellar",
-                            PublishDate = new DateTime(2014, 11, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("ActorMovie", b =>
