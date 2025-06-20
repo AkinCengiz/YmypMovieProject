@@ -20,4 +20,34 @@ public class MoviesController : ControllerBase
         var movies = _movieService.GetAll();
         return Ok(movies);
     }
+
+    [HttpGet("FullInfo")]
+    public IActionResult GetAllFullInfo()
+    {
+        var movies = _movieService.GetMoviesWithFullInfo();
+        var dto = movies.Select(m => new
+        {
+            m.Id,
+            m.Name,
+            m.Description,
+            m.IMDB,
+            Category = new
+            {
+                m.Category.Name,
+            },
+            Director = new
+            {
+                m.Director.FirstName,
+                m.Director.LastName,
+                m.Director.ImageUrl
+            },
+            Actors = m.Actors.Select(a => new
+            {
+                a.FirstName,
+                a.LastName,
+                a.ImageUrl
+            }).ToList(),
+        }).ToList();
+        return Ok(dto);
+    }
 }

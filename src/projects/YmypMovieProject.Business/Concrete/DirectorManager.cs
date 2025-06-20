@@ -40,7 +40,8 @@ public sealed class DirectorManager : IDirectorService
 
     public Director GetById(Guid id)
     {
-        return _directorRepository.Get(d => d.Id == id);
+        //return _directorRepository.Get(d => d.Id == id);
+        return _directorRepository.GetQueryable(d => d.Id == id).Include(d => d.Movies).FirstOrDefault();
     }
 
     public IQueryable<Director> GetQueryable()
@@ -50,7 +51,8 @@ public sealed class DirectorManager : IDirectorService
 
     public List<Director> GetByIsActive()
     {
-        return _directorRepository.GetAll(d => d.IsActive);
+        //return _directorRepository.GetAll(d => d.IsActive);
+        return _directorRepository.GetQueryable(d => d.IsActive).Include(d => d.Movies).ToList();
     }
 
     public List<Director> GetByIsDeleted()
