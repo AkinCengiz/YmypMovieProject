@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
@@ -12,10 +13,12 @@ namespace YmypMovieProject.Business.Concrete;
 public sealed class CategoryManager : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IMapper _mapper;
 
-    public CategoryManager(ICategoryRepository categoryRepository)
+    public CategoryManager(ICategoryRepository categoryRepository, IMapper mapper)
     {
         _categoryRepository = categoryRepository;
+        _mapper = mapper;
     }
 
     public List<Category> GetAll()

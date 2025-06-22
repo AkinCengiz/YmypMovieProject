@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
+using AutoMapper;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.WebAPI.Controllers;
@@ -10,10 +12,12 @@ namespace YmypMovieProject.WebAPI.Controllers;
 public class DirectorsController : ControllerBase
 {
     private readonly IDirectorService _directorService;
+    private readonly IMapper _mapper;
 
-    public DirectorsController(IDirectorService directorService)
+    public DirectorsController(IDirectorService directorService, IMapper mapper)
     {
         _directorService = directorService;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -40,21 +44,22 @@ public class DirectorsController : ControllerBase
         //        Kategori = m.Category.Name
         //    }).ToList()
         //}).ToList();
-        var dto = directors.Select(d => new
-        {
-            d.Id,
-            d.FirstName,
-            d.LastName,
-            d.ImageUrl,
-            d.BirthDate,
-            d.Description,
-            Movies = d.Movies.Select(m => new
-            {
-                m.Name,
-                Category = m.Category.Name,
-                m.Category.Description
-            }).ToList()
-        }).ToList();
+        //var dto = directors.Select(d => new
+        //{
+        //    d.Id,
+        //    d.FirstName,
+        //    d.LastName,
+        //    d.ImageUrl,
+        //    d.BirthDate,
+        //    d.Description,
+        //    Movies = d.Movies.Select(m => new
+        //    {
+        //        m.Name,
+        //        Category = m.Category.Name,
+        //        m.Category.Description
+        //    }).ToList()
+        //}).ToList();
+        var dto = _mapper.Map<List<DirectorResponseDto>>(directors);
         return Ok(dto);
     }
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.Business.Mappers.Categories;
 using YmypMovieProject.Entity.Dtos.Categories;
+using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Dtos.Movies;
 using YmypMovieProject.Entity.Entities;
 
@@ -14,12 +15,12 @@ namespace YmypMovieProject.WebAPI.Controllers;
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
-    private readonly ManuelCategoryMapper _mapper;
+    private readonly ICategoryMapper _mapper;
 
-    public CategoriesController(ICategoryService categoryService)
+    public CategoriesController(ICategoryService categoryService,ICategoryMapper mapper)
     {
         _categoryService = categoryService;
-        _mapper = new ManuelCategoryMapper(); // Assuming you have a manual mapper for categories
+        _mapper = mapper; 
     }
 
     [HttpGet]
@@ -79,7 +80,7 @@ public class CategoriesController : ControllerBase
         //        Description = category.Description ?? string.Empty
         //    });
         //}
-
+       
         var dtos = _mapper.ConvertToResponseList(categories);
         return Ok(dtos);
     }

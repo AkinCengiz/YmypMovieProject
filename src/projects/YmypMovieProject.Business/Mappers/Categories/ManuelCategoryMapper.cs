@@ -7,7 +7,7 @@ using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Mappers.Categories;
-public sealed class ManuelCategoryMapper
+public sealed class ManuelCategoryMapper : ICategoryMapper
 {
     public Category ConvertToEntity(CategoryAddRequestDto dto)
     {
@@ -50,3 +50,29 @@ public sealed class ManuelCategoryMapper
         return categories.Select(x => ConvertToResponse(x)).ToList();
     }
 }
+
+
+//      string Yaz(string firstname){
+/*          return"Merhaba " + firstname + "!";
+ *      }
+ **
+ *      string Yaz(int age){
+   *          return age.ToString() + " yaşındasınız!";
+   *     }
+ *
+ *      string Yaz(string firstname, string lastname){
+ *          return "Merhaba " + firstname + " " + lastname + "!";
+ *      }
+ *
+ *      string Yaz(int ay, int yil){
+   *          return yil.ToString() + " yılının " + ay.ToString() + ". ayında doğdunuz!";
+   *      }
+ 
+ * 
+ *      Yaz("Ahmet"); // "Merhaba Ahmet!"
+ *      Yaz("Ahmet", "Yılmaz"); // "Merhaba Ahmet Yılmaz!"
+ *
+ * 
+ * 
+ * 
+ * */
