@@ -2,7 +2,7 @@
 
 namespace YmypMovieProject.Entity.Dtos.Categories;
 
-public sealed record CategoryUpdateRequestDto : IDto
+public sealed record CategoryUpdateRequestDto : IUpdateDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;

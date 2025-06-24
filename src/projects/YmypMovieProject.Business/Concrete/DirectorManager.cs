@@ -3,82 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
+using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
 public sealed class DirectorManager : IDirectorService
 {
     private readonly IDirectorRepository _directorRepository;
+    private readonly IMapper _mapper;
 
-    public DirectorManager(IDirectorRepository directorRepository)
+    public void Insert(DirectorAddRequestDto dto)
     {
-        _directorRepository = directorRepository;
+        Director director = _mapper.Map<Director>(dto);
+        _directorRepository.Add(director);
     }
 
-    public void Insert(Director entity)
+    public void Modify(DirectorUpdateRequestDto dto)
     {
-        _directorRepository.Add(entity);
+        Director director = _mapper.Map<Director>(dto);
+        director.UpdateAt = DateTime.UtcNow;
+        _directorRepository.Update(director);
     }
 
-    public void Modify(Director entity)
+    public void Remove(Guid id)
     {
-        _directorRepository.Update(entity);
+        Director director = _directorRepository.Get(d => d.Id == id);
+        if (director == null)
+        {
+            throw new KeyNotFoundException("Director not found.");
+        }
+        director.IsActive = false;
+        director.IsDeleted = true;
+        director.UpdateAt = DateTime.UtcNow;
+        _directorRepository.Update(director);
     }
 
-    public void Remove(Director entity)
+    public ICollection<DirectorResponseDto> GetAll()
     {
-        _directorRepository.Delete(entity);
+        var directors = _directorRepository.GetQueryable().ToList();
+        if (directors is null)
+        {
+            return new List<DirectorResponseDto>();
+        }
+        List<DirectorResponseDto> dtos = _mapper.Map<List<DirectorResponseDto>>(directors);
+        return dtos;
     }
 
-    public List<Director> GetAll()
+    public DirectorResponseDto GetById(Guid id)
     {
-        return _directorRepository.GetAll();
-    }
-
-    public Director GetById(Guid id)
-    {
-        //return _directorRepository.Get(d => d.Id == id);
-        return _directorRepository.GetQueryable(d => d.Id == id).Include(d => d.Movies).FirstOrDefault();
-    }
-
-    public IQueryable<Director> GetQueryable()
-    {
-        return _directorRepository.GetQueryable();
-    }
-
-    public List<Director> GetByIsActive()
-    {
-        //return _directorRepository.GetAll(d => d.IsActive);
-        return _directorRepository.GetQueryable(d => d.IsActive).Include(d => d.Movies).ToList();
-    }
-
-    public List<Director> GetByIsDeleted()
-    {
-        return _directorRepository.GetAll(d => d.IsDeleted);
-        //return _directorRepository.GetQueryable(d => d.IsDeleted).Include(d => d.Movies).ToList();
-    }
-
-    public List<Director> GetByFirstName(string firstname)
-    {
-        return _directorRepository.GetAll(d => d.FirstName == firstname);
-    }
-
-    public List<Director> GetByLastName(string lastname)
-    {
-        return _directorRepository.GetAll(d => d.LastName == lastname);
-    }
-
-    public Director GetByFullName(string firstname, string lastname)
-    {
-        return _directorRepository.Get(d => d.FirstName == firstname && d.LastName == lastname);
-    }
-
-    public List<Director> GetAllFullInfo()
-    {
-        return _directorRepository.GetQueryable()
-            .Include(d => d.Movies).ThenInclude(m => m.Category).ToList();
+        var director = _directorRepository.Get(d => d.Id == id);
+        if (director is null)
+        {
+            throw new KeyNotFoundException("Director not found.");
+        }
+        DirectorResponseDto dto = _mapper.Map<DirectorResponseDto>(director);
+        return dto;
     }
 }

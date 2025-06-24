@@ -13,4 +13,6 @@ public sealed record DirectorResponseDto(
     string LastName,
     string ImageUrl,
     DateTime BirthDate, 
-    string Description):IDto;
+    string Description):IResponseDto;
+
+//DirectorResponseDto(id,firstName, lastName, imageUrl, birthDate, description) ;

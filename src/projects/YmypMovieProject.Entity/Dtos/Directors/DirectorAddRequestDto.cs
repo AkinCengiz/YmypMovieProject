@@ -8,4 +8,4 @@ public sealed record DirectorAddRequestDto(
     string ImageUrl,//IFormFile olarak değiştirilecek.
     DateTime BirthDate,
     string Description
-) : IDto;
+) : ICreateDto;

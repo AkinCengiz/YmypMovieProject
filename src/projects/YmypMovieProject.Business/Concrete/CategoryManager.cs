@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
+using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
@@ -21,49 +22,73 @@ public sealed class CategoryManager : ICategoryService
         _mapper = mapper;
     }
 
-    public List<Category> GetAll()
+    public void Insert(CategoryAddRequestDto dto)
     {
-        //_categoryRepository.GetQueryable().ToList();
-        //_categoryRepository.GetAll();
-        //return _categoryRepository.GetAll(c => !c.IsDeleted);
-        return _categoryRepository.GetAll();
+        //Gelen dto mapper ile category nesnesine dönüştürülür.
+        Category category = _mapper.Map<Category>(dto);
+
+        //Category nesnesi veritabanına dataaccess metoduyla eklenir.
+        _categoryRepository.Add(category);
     }
 
-    public Category GetById(Guid id)
+
+    public void Modify(CategoryUpdateRequestDto dto)
     {
-        return _categoryRepository.Get(c => c.Id == id);
+        //Gelen dto mapper ile category nesnesine dönüştürülür.
+        Category category = _mapper.Map<Category>(dto);
+
+        //Category nesnesinin güncellenme tarihi ayarlanır.
+        category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+
+        //Category nesnesi veritabanına dataaccess metoduyla güncellenir.
+        _categoryRepository.Update(category);
     }
 
-    public IQueryable<Category> GetQueryable()
+    public void Remove(Guid id)
     {
-        return _categoryRepository.GetQueryable();
+        // ID ile kategori bulunur.
+        Category category = _categoryRepository.Get(c => c.Id.Equals(id));
+
+        // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
+        if (category == null)
+        {
+            throw new KeyNotFoundException($"Category with ID {id} not found.");
+        }
+
+        // Kategori nesnesi soft delete mantığıyla işaretlenir.
+        category.IsDeleted = true; // Soft delete logic
+        category.IsActive = false; // Optionally set IsActive to false
+
+        // Güncellenme tarihi ayarlanır.
+        category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+
+        // Kategori nesnesi veritabanına dataaccess metoduyla güncellenir.
+        _categoryRepository.Update(category);
     }
 
-    public List<Category> GetByIsActive()
+    public ICollection<CategoryResponseDto> GetAll()
     {
-        return _categoryRepository.GetAll(c => c.IsActive);
+        // Tüm kategorileri veritabanından alınır.
+        var categories = _categoryRepository.GetQueryable().ToList();
+
+        // Kategoriler, CategoryResponseDto'ya dönüştürülür.
+        var categoryDtos = _mapper.Map<List<CategoryResponseDto>>(categories);
+        // Kategoriler DTO'ya dönüştürüldükten sonra , DTO listesi döndürülür.
+        return categoryDtos;
     }
 
-    public List<Category> GetByIsDeleted()
+    public CategoryResponseDto GetById(Guid id)
     {
-        return _categoryRepository.GetAll(c => c.IsDeleted);
-    }
-
-    public void Insert(Category entity)
-    {
-        _categoryRepository.Add(entity);
-    }
-
-    public void Modify(Category entity)
-    {
-        entity.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
-        _categoryRepository.Update(entity);
-    }
-
-    public void Remove(Category entity)
-    {
-        entity.IsDeleted = true; // Soft delete logic
-        entity.IsActive = false; // Optionally set IsActive to false
-        _categoryRepository.Delete(entity);
+        // ID ile kategori bulunur.
+        var category = _categoryRepository.Get(c => c.Id.Equals(id));
+        // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
+        if (category == null)
+        {
+            throw new KeyNotFoundException($"Category with ID {id} not found.");
+        }
+        // Kategori, CategoryResponseDto'ya dönüştürülür.
+        var categoryDto = _mapper.Map<CategoryResponseDto>(category);
+        // Dönüştürülen DTO döndürülür.
+        return categoryDto;
     }
 }

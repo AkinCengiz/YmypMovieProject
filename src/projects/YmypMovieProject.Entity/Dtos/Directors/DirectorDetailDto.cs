@@ -12,4 +12,4 @@ public sealed record DirectorDetailDto(
     string LastName,
     string ImageUrl,
     DateTime BirthDate,
-    string Description) : IDto;
+    string Description) : IResponseDto;

@@ -10,12 +10,10 @@ namespace YmypMovieProject.WebAPI.Controllers;
 public class MoviesController : ControllerBase
 {
     private readonly IMovieService _movieService;
-    private readonly IMapper _mapper;
 
     public MoviesController(IMovieService movieService, IMapper mapper)
     {
         _movieService = movieService;
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -28,7 +26,7 @@ public class MoviesController : ControllerBase
     [HttpGet("FullInfo")]
     public IActionResult GetAllFullInfo()
     {
-        var movies = _movieService.GetMoviesWithFullInfo();
+        //var movies = _movieService.GetMoviesWithFullInfo();
         //var dto = movies.Select(m => new
         //{
         //    m.Id,
@@ -52,7 +50,7 @@ public class MoviesController : ControllerBase
         //        a.ImageUrl
         //    }).ToList(),
         //}).ToList();
-        List<MovieDetailDto> dto = _mapper.Map<List<MovieDetailDto>>(movies);
-        return Ok(dto);
+        //List<MovieDetailDto> dto = _mapper.Map<List<MovieDetailDto>>(movies);
+        return Ok();
     }
 }

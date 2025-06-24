@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
+using YmypMovieProject.Entity.Dtos.Movies;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
@@ -18,80 +19,28 @@ public sealed class MovieManager : IMovieService
         _movieRepository = movieRepository;
     }
 
-    public void Insert(Movie entity)
+    public void Insert(MovieAddRequestDto dto)
     {
-        _movieRepository.Add(entity);
+        throw new NotImplementedException();
     }
 
-    public void Modify(Movie entity)
+    public void Modify(MovieUpdateRequestDto dto)
     {
-        _movieRepository.Update(entity);
+        throw new NotImplementedException();
     }
 
-    public void Remove(Movie entity)
+    public void Remove(Guid id)
     {
-        entity.IsDeleted = true; // Soft delete
-        entity.IsActive = false; // Deactivate the movie
-        _movieRepository.Update(entity);
+        throw new NotImplementedException();
     }
 
-    public List<Movie> GetAll()
+    public ICollection<MovieResponseDto> GetAll()
     {
-        return _movieRepository.GetAll();
+        throw new NotImplementedException();
     }
 
-    public Movie GetById(Guid id)
+    public MovieResponseDto GetById(Guid id)
     {
-        return _movieRepository.Get(m => m.Id == id);
+        throw new NotImplementedException();
     }
-
-    public IQueryable<Movie> GetQueryable()
-    {
-        return _movieRepository.GetQueryable();
-    }
-
-    public List<Movie> GetByIsActive()
-    {
-        return _movieRepository.GetAll(m => m.IsActive);
-    }
-  
-    public List<Movie> GetByIsDeleted()
-    {
-        return _movieRepository.GetAll(m => m.IsDeleted);
-    }
-
-    public List<Movie> GetByName(string name)
-    {
-        return _movieRepository.GetAll(m => m.Name.Equals(name));
-    }
-
-    public List<Movie> GetByLessThanIMDB(decimal imdb)
-    {
-        return _movieRepository.GetAll(m => m.IMDB <= imdb);
-    }
-
-    public List<Movie> GetByGreaterThanIMDB(decimal imdb)
-    {
-        return _movieRepository.GetAll(m => m.IMDB >= imdb);
-    }
-
-    public List<Movie> GetByCategoryId(Guid categoryId)
-    {
-        return _movieRepository.GetAll(m => m.CategoryId == categoryId);
-    }
-
-    public List<Movie> GetByDirectorId(Guid directorId)
-    {
-        return _movieRepository.GetAll(m => m.DirectorId == directorId);
-    }
-
-    public List<Movie> GetMoviesWithFullInfo()
-    {
-        return _movieRepository.GetQueryable()
-            .Include(m => m.Category)
-            .Include(m => m.Director)
-            .Include(m => m.Actors).ToList();
-    }
-
-    
 }

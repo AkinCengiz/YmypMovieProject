@@ -2,7 +2,7 @@
 
 namespace YmypMovieProject.Entity.Dtos.Movies;
 
-public sealed record MovieAddRequestDto : IDto
+public sealed record MovieAddRequestDto : ICreateDto
 {
     public string? Name { get; init; }
     public string? Description { get; init; }

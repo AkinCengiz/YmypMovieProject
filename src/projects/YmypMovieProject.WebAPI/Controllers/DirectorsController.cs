@@ -12,12 +12,11 @@ namespace YmypMovieProject.WebAPI.Controllers;
 public class DirectorsController : ControllerBase
 {
     private readonly IDirectorService _directorService;
-    private readonly IMapper _mapper;
+
 
     public DirectorsController(IDirectorService directorService, IMapper mapper)
     {
         _directorService = directorService;
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -29,21 +28,19 @@ public class DirectorsController : ControllerBase
     [HttpGet("FullInfo")]
     public IActionResult GetFullInfo()
     {
-        var directors = _directorService.GetAllFullInfo();
-        //var dto = directors.Select(d => new
-        //{
-        //    ID = d.Id,
-        //    Adi = d.FirstName,
-        //    Soyadi = d.LastName,
-        //    Resim = d.ImageUrl,
-        //    DogumTarihi = d.BirthDate,
-        //    Aciklama = d.Description,
-        //    Filmleri = d.Movies.Select(m => new
-        //    {
-        //        Film = m.Name,
-        //        Kategori = m.Category.Name
-        //    }).ToList()
-        //}).ToList();
+        return Ok();
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetDirector(string id)
+    {
+        var director = _directorService.GetById(Guid.Parse(id));
+        return Ok(director);
+    }
+    [HttpGet("GetAllIsActive")]
+    public IActionResult GetAllIsActive()
+    {
+        //var directors = _directorService.GetByIsActive();
         //var dto = directors.Select(d => new
         //{
         //    d.Id,
@@ -54,52 +51,10 @@ public class DirectorsController : ControllerBase
         //    d.Description,
         //    Movies = d.Movies.Select(m => new
         //    {
-        //        m.Name,
-        //        Category = m.Category.Name,
-        //        m.Category.Description
+        //        m.Name
         //    }).ToList()
         //}).ToList();
-        var dto = _mapper.Map<List<DirectorResponseDto>>(directors);
-        return Ok(dto);
-    }
-
-    [HttpGet("{id}")]
-    public IActionResult GetDirector(string id)
-    {
-        Director director = _directorService.GetById(Guid.Parse(id));
-        var dto = new
-        {
-            director.Id,
-            director.FirstName,
-            director.LastName,
-            director.ImageUrl,
-            director.BirthDate,
-            director.Description,
-            Movies = director.Movies.Select(m => new
-            {
-                m.Name
-            }).ToList()
-        };
-        return Ok(dto);
-    }
-    [HttpGet("GetAllIsActive")]
-    public IActionResult GetAllIsActive()
-    {
-        var directors = _directorService.GetByIsActive();
-        var dto = directors.Select(d => new
-        {
-            d.Id,
-            d.FirstName,
-            d.LastName,
-            d.ImageUrl,
-            d.BirthDate,
-            d.Description,
-            Movies = d.Movies.Select(m => new
-            {
-                m.Name
-            }).ToList()
-        }).ToList();
-        return Ok(dto);
+        return Ok();
     }
 }
 //{ }

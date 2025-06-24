@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Core.Entity;
 
 namespace YmypMovieProject.Entity.Dtos.Categories;
-public sealed record CategoryResponseDto : IDto
+public sealed record CategoryResponseDto : IResponseDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;

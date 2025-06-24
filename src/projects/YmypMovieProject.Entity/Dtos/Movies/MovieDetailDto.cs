@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Core.Entity;
 
 namespace YmypMovieProject.Entity.Dtos.Movies;
-public sealed record MovieDetailDto : IDto
+public sealed record MovieDetailDto : IResponseDto
 {
     public Guid Id { get; init; }
     public string? Name { get; init; }
