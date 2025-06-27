@@ -14,4 +14,9 @@ public sealed class EfDirectorRepository : EfGenericRepository<Director, MovieDb
     public EfDirectorRepository(MovieDbContext context) : base(context)
     {
     }
+
+    
+    
+
+    
 }

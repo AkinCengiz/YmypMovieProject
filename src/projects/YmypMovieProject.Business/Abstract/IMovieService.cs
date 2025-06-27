@@ -16,6 +16,6 @@ public interface IMovieService : IGenericService<Movie,MovieResponseDto,MovieAdd
     //List<Movie> GetByGreaterThanIMDB(decimal imdb);
     //List<Movie> GetByCategoryId(Guid categoryId);
     //List<Movie> GetByDirectorId(Guid directorId);
-    //List<Movie> GetMoviesWithFullInfo();
+    List<MovieDetailDto> GetMoviesWithFullInfo();
     
 }

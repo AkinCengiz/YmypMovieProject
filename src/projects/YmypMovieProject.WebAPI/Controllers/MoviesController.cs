@@ -26,31 +26,32 @@ public class MoviesController : ControllerBase
     [HttpGet("FullInfo")]
     public IActionResult GetAllFullInfo()
     {
-        //var movies = _movieService.GetMoviesWithFullInfo();
-        //var dto = movies.Select(m => new
-        //{
-        //    m.Id,
-        //    m.Name,
-        //    m.Description,
-        //    m.IMDB,
-        //    Category = new
-        //    {
-        //        m.Category.Name,
-        //    },
-        //    Director = new
-        //    {
-        //        m.Director.FirstName,
-        //        m.Director.LastName,
-        //        m.Director.ImageUrl
-        //    },
-        //    Actors = m.Actors.Select(a => new
-        //    {
-        //        a.FirstName,
-        //        a.LastName,
-        //        a.ImageUrl
-        //    }).ToList(),
-        //}).ToList();
-        //List<MovieDetailDto> dto = _mapper.Map<List<MovieDetailDto>>(movies);
-        return Ok();
+        var movies = _movieService.GetMoviesWithFullInfo();
+        return Ok(movies);
+    }
+    [HttpGet("{id:guid}")]
+    public IActionResult GetById([FromRoute(Name = "id")]Guid id)
+    {
+        var movie = _movieService.GetById(id);
+        return Ok(movie);
+    }
+
+    [HttpPost]
+    public IActionResult Insert([FromBody] MovieAddRequestDto dto)
+    {
+        _movieService.Insert(dto);
+        return StatusCode(201,dto);
+    }
+    [HttpPut]
+    public IActionResult Update([FromBody] MovieUpdateRequestDto dto)
+    {
+        _movieService.Modify(dto);
+        return Ok(dto);
+    }
+    [HttpDelete("{id:guid}")]
+    public IActionResult Delete([FromRoute(Name = "id")] Guid id)
+    {
+        _movieService.Remove(id);
+        return Content("Movie deleted successfuly");
     }
 }
