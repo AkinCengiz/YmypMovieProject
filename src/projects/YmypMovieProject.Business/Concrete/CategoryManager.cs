@@ -91,4 +91,42 @@ public sealed class CategoryManager : ICategoryService
         // Dönüştürülen DTO döndürülür.
         return categoryDto;
     }
+
+    public async Task InsertAsync(CategoryAddRequestDto dto)
+    {
+        try
+        {
+            if (dto is null)
+            {
+                throw new ArgumentNullException(nameof(dto), "CategoryAddRequestDto cannot be null.");
+            }
+            // Gelen dto mapper ile category nesnesine dönüştürülür.
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public Task ModifyAsync(CategoryUpdateRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<ICollection<CategoryResponseDto>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<CategoryResponseDto> GetByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

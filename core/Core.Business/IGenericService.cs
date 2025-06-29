@@ -8,13 +8,13 @@ using Core.Entity;
 
 namespace Core.Business
 { 
-    public interface IGenericService<TEntity, TResponseDto,TCreateDto,TUpdateDto> 
+    public interface IGenericService<TEntity, TResponseDto,in TCreateDto,in TUpdateDto> 
         where TEntity : class, IEntity, new()
         where TResponseDto : class, IDto
         where TCreateDto : class, IDto
         where TUpdateDto : class, IDto
     {
-       void Insert(TCreateDto dto);
+        void Insert(TCreateDto dto);
         void Modify(TUpdateDto dto);
         void Remove(Guid id);
         ICollection<TResponseDto> GetAll();

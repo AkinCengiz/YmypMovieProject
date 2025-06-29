@@ -10,7 +10,7 @@ using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Abstract;
-public interface IDirectorService : IGenericService<Director,DirectorResponseDto,DirectorAddRequestDto,DirectorUpdateRequestDto>
+public interface IDirectorService : IGenericService<Director,DirectorResponseDto,DirectorAddRequestDto,DirectorUpdateRequestDto>,IGenericServiceAsync<Director, DirectorResponseDto, DirectorAddRequestDto, DirectorUpdateRequestDto>
 {
     //List<Director> GetByFirstName(string firstname);
     //List<Director> GetByLastName(string lastname);

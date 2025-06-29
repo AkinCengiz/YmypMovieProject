@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Business", "core\Core.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataAccess", "Core.DataAccess\Core.DataAccess.csproj", "{9CAF7AC6-3190-4364-9298-42C1DC8B420E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YmypMovieProject.MvcApp", "YmypMovieProject.MvcApp\YmypMovieProject.MvcApp.csproj", "{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{CA994727-6C77-4D1A-8023-35266A61EA22} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
 		{9CAF7AC6-3190-4364-9298-42C1DC8B420E} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
+		{8A3F1DA4-6975-4968-8E3F-D03E35CF6DA2} = {67AE02C8-32F2-4A42-9D7F-B4F8D1C1810D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {102AF435-983B-4496-A3CA-DFC8D3850056}

@@ -6,9 +6,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace Core.DataAccess;
-public abstract class EfGenericRepository<T, TContext> : IGenericRepository<T>
+public abstract class EfGenericRepository<T, TContext> : IGenericRepository<T>, IGenericRepositoryAsync<T>
     where T : class, IEntity, new()
     where TContext : DbContext
 {
@@ -21,7 +22,6 @@ public abstract class EfGenericRepository<T, TContext> : IGenericRepository<T>
         Context = context;
         _dbSet = context.Set<T>();
     }
-
 
 
     public void Add(T entity)
@@ -59,4 +59,42 @@ public abstract class EfGenericRepository<T, TContext> : IGenericRepository<T>
         return filter == null ? _dbSet : _dbSet.Where(filter);
         //return filter == null ? _dbSet.AsQueryable() : _dbSet.Where(filter).AsQueryable();
     }
+
+    public async Task AddAsync(T entity)
+    {
+        _dbSet.AddAsync(entity);
+        await Context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(T entity)
+    {
+        _dbSet.Update(entity);
+        await Context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(T entity)
+    {
+        _dbSet.Remove(entity);
+        await Context.SaveChangesAsync();
+    }
+
+    public async Task<T> GetAsync(Expression<Func<T, bool>>? filter)
+    {
+        return await _dbSet.FirstOrDefaultAsync(filter);
+    }
+
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
+    {
+        return filter == null 
+            ? await _dbSet.ToListAsync() 
+            : await _dbSet.Where(filter).ToListAsync();
+    }
+
+    public IQueryable<T> GetQueryableAsync(Expression<Func<T, bool>>? filter = null)
+    {
+        return filter == null
+            ? _dbSet
+            : _dbSet.Where(filter);
+    }
 }
+

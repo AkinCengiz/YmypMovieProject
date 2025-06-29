@@ -10,7 +10,7 @@ using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Abstract;
-public interface ICategoryService : IGenericService<Category,CategoryResponseDto,CategoryAddRequestDto,CategoryUpdateRequestDto>
+public interface ICategoryService : IGenericService<Category,CategoryResponseDto,CategoryAddRequestDto,CategoryUpdateRequestDto>,IGenericServiceAsync<Category, CategoryResponseDto, CategoryAddRequestDto, CategoryUpdateRequestDto>
 {
    
 }

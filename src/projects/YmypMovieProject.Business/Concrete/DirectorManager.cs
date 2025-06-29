@@ -63,4 +63,29 @@ public sealed class DirectorManager : IDirectorService
         DirectorResponseDto dto = _mapper.Map<DirectorResponseDto>(director);
         return dto;
     }
+
+    public Task InsertAsync(DirectorAddRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task ModifyAsync(DirectorUpdateRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<ICollection<DirectorResponseDto>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<DirectorResponseDto> GetByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -7,6 +7,6 @@ using Core.DataAccess;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.DataAccess.Repositories.Abstract;
-public interface IActorRepository : IGenericRepository<Actor>
+public interface IActorRepository : IGenericRepository<Actor>,IGenericRepositoryAsync<Actor>
 {
 }
