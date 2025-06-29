@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36121.58 d17.14
+VisualStudioVersion = 17.14.36121.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -19,9 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YmypMovieProject.WebAPI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Entity", "core\Core.Entity\Core.Entity.csproj", "{CA994727-6C77-4D1A-8023-35266A61EA22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataAccess", "Core.DataAccess\Core.DataAccess.csproj", "{7C620E0E-7B79-40AC-B101-E865E40961E8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Business", "core\Core.Business\Core.Business.csproj", "{174DCD35-0F11-44B9-B0F8-7F0BF07980E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataAccess", "Core.DataAccess\Core.DataAccess.csproj", "{9CAF7AC6-3190-4364-9298-42C1DC8B420E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,14 +49,14 @@ Global
 		{CA994727-6C77-4D1A-8023-35266A61EA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA994727-6C77-4D1A-8023-35266A61EA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA994727-6C77-4D1A-8023-35266A61EA22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C620E0E-7B79-40AC-B101-E865E40961E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C620E0E-7B79-40AC-B101-E865E40961E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C620E0E-7B79-40AC-B101-E865E40961E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C620E0E-7B79-40AC-B101-E865E40961E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAF7AC6-3190-4364-9298-42C1DC8B420E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,8 +69,8 @@ Global
 		{6AC33758-E1BE-40B4-B1A6-A0FB6BD08361} = {67AE02C8-32F2-4A42-9D7F-B4F8D1C1810D}
 		{4685C95C-42C5-4B11-8F64-05DDE5608706} = {67AE02C8-32F2-4A42-9D7F-B4F8D1C1810D}
 		{CA994727-6C77-4D1A-8023-35266A61EA22} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
-		{7C620E0E-7B79-40AC-B101-E865E40961E8} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
 		{174DCD35-0F11-44B9-B0F8-7F0BF07980E5} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
+		{9CAF7AC6-3190-4364-9298-42C1DC8B420E} = {86C61CA4-CDE4-43DC-B7DF-BA885BD55998}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {102AF435-983B-4496-A3CA-DFC8D3850056}

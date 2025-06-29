@@ -7,6 +7,6 @@ using Core.DataAccess;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.DataAccess.Repositories.Abstract;
-public interface ICategoryRepository : IGenericRepository
+public interface ICategoryRepository : IGenericRepository<Category>
 {
 }
