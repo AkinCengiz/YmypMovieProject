@@ -10,7 +10,7 @@ using YmypMovieProject.Entity.Dtos.Actors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
-public sealed class ActorManager : IActorService
+public sealed class ActorManager //: IActorService
 {
     private readonly IActorRepository _actorRepository;
 

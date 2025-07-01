@@ -11,7 +11,7 @@ using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
-public sealed class DirectorManager : IDirectorService
+public sealed class DirectorManager //: IDirectorService
 {
     private readonly IDirectorRepository _directorRepository;
     private readonly IMapper _mapper;

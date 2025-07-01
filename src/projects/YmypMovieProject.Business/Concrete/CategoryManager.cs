@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Business.Utilites.Results;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.Business.Constants;
+using YmypMovieProject.Business.Validators;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
 using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Entities;
@@ -15,20 +21,59 @@ public sealed class CategoryManager : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly CategoryValidator _categoryValidator;
+
+
 
     public CategoryManager(ICategoryRepository categoryRepository, IMapper mapper)
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
+        _categoryValidator = new CategoryValidator();
     }
 
-    public void Insert(CategoryAddRequestDto dto)
+    public IResult Insert(CategoryAddRequestDto dto)
     {
-        //Gelen dto mapper ile category nesnesine dönüştürülür.
-        Category category = _mapper.Map<Category>(dto);
+        try
+        {
+            ValidationResult result = _categoryValidator.Validate(dto);
+            if (!result.IsValid)
+            {
+                string errorMessages = string.Join(",\n ", result.Errors.Select(e => e.ErrorMessage));
 
-        //Category nesnesi veritabanına dataaccess metoduyla eklenir.
-        _categoryRepository.Add(category);
+                return new ErrorResult(errorMessages);
+            }
+
+            // Eğer doğrulama başarılıysa, Category nesnesine dönüştürülür.
+            var category = _mapper.Map<Category>(dto);
+
+            _categoryRepository.Add(category);
+            return new SuccessResult(ResultMessages.SuccessCategoryCreated);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while adding the category: {e.Message}");
+        }
+
+
+
+
+
+
+
+
+        
+        ////Gelen dto mapper ile category nesnesine dönüştürülür.
+        ////ValidationResult result = _categoryValidator.Validate(dto);
+        ////if (!result.IsValid)
+        ////{
+        ////    // Eğer doğrulama başarısızsa, ValidationException fırlatılır.
+        ////    throw new ValidationException(result.Errors);
+        ////}
+        //Category category = _mapper.Map<Category>(dto);
+
+        ////Category nesnesi veritabanına dataaccess metoduyla eklenir.
+        //_categoryRepository.Add(category);
     }
 
 
@@ -69,7 +114,7 @@ public sealed class CategoryManager : ICategoryService
     public ICollection<CategoryResponseDto> GetAll()
     {
         // Tüm kategorileri veritabanından alınır.
-        var categories = _categoryRepository.GetQueryable().ToList();
+        var categories = _categoryRepository.GetQueryable(c => !c.IsDeleted).ToList();
 
         // Kategoriler, CategoryResponseDto'ya dönüştürülür.
         var categoryDtos = _mapper.Map<List<CategoryResponseDto>>(categories);
@@ -96,12 +141,20 @@ public sealed class CategoryManager : ICategoryService
     {
         try
         {
-            if (dto is null)
+            //if (dto is null)
+            //{
+            //    throw new ArgumentNullException(nameof(dto), "CategoryAddRequestDto cannot be null.");
+            //}
+            ValidationResult result = _categoryValidator.Validate(dto);
+            if (!result.IsValid)
             {
-                throw new ArgumentNullException(nameof(dto), "CategoryAddRequestDto cannot be null.");
+                // Eğer doğrulama başarısızsa, ValidationException fırlatılır.
+                result.Errors.ForEach(error => Console.WriteLine(error.ErrorMessage));
             }
-            // Gelen dto mapper ile category nesnesine dönüştürülür.
-            
+            var category = _mapper.Map<Category>(dto);
+            //Category nesnesi veritabanına dataaccess metoduyla eklenir.
+            await _categoryRepository.AddAsync(category);
+
         }
         catch (Exception e)
         {

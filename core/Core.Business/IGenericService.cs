@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Business.Utilites.Results;
 using Core.Entity;
 
 namespace Core.Business
@@ -14,7 +15,7 @@ namespace Core.Business
         where TCreateDto : class, IDto
         where TUpdateDto : class, IDto
     {
-        void Insert(TCreateDto dto);
+        IResult Insert(TCreateDto dto);
         void Modify(TUpdateDto dto);
         void Remove(Guid id);
         ICollection<TResponseDto> GetAll();

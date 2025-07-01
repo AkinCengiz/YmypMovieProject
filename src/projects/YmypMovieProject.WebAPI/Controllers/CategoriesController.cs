@@ -38,8 +38,13 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     public IActionResult Create(CategoryAddRequestDto category)
     {
-        _categoryService.Insert(category);
-        return Ok(category);
+        var result = _categoryService.Insert(category);
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(result.Message);
     }
 
     [HttpPut]
