@@ -97,7 +97,7 @@ public sealed class CategoryManager : ICategoryService
         // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
         if (category == null)
         {
-            throw new KeyNotFoundException($"Category with ID {id} not found.");
+            throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
         }
 
         // Kategori nesnesi soft delete mantığıyla işaretlenir.
@@ -129,7 +129,7 @@ public sealed class CategoryManager : ICategoryService
         // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
         if (category == null)
         {
-            throw new KeyNotFoundException($"Category with ID {id} not found.");
+            throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
         }
         // Kategori, CategoryResponseDto'ya dönüştürülür.
         var categoryDto = _mapper.Map<CategoryResponseDto>(category);

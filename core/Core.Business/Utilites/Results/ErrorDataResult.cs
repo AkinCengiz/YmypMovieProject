@@ -20,3 +20,5 @@ public class ErrorDataResult<T> : DataResult<T>
     {
     }
 }
+
+

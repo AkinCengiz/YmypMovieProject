@@ -17,8 +17,9 @@ public class Result : IResult
         Success = success;
     }
 
-    
-    
+
+
+
     public bool Success { get; }
     public string Message { get; }
 }

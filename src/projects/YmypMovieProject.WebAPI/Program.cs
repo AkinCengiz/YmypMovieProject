@@ -1,5 +1,7 @@
+using Core.DataAccess;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using System;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.Business.Concrete;
 using YmypMovieProject.Business.Mappers.Categories;
@@ -24,11 +26,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddDbContext<MovieDbContext>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
-builder.Services.AddScoped<ICategoryRepository,EfCategoryRepository>();
+//builder.Services.AddScoped<ICategoryRepository,EfCategoryRepository>();
 //builder.Services.AddScoped<IMovieService, MovieManager>();
-builder.Services.AddScoped<IMovieRepository, EfMovieRepository>();
+//builder.Services.AddScoped<IMovieRepository, EfMovieRepository>();
 //builder.Services.AddScoped<IDirectorService, DirectorManager>();
-builder.Services.AddScoped<IDirectorRepository, EfDirectorRepository>();
+//builder.Services.AddScoped<IDirectorRepository, EfDirectorRepository>();
 builder.Services.AddScoped<ICategoryMapper, AutoCategoryMapper>();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 builder.Services.AddValidatorsFromAssemblyContaining<CategoryValidator>();
