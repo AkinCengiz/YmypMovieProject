@@ -22,6 +22,7 @@ public sealed class CategoryManager : ICategoryService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
     private readonly CategoryValidator _categoryValidator;
+    private readonly CategoryUpdateValidator _updateValidator;
 
 
 
@@ -29,6 +30,7 @@ public sealed class CategoryManager : ICategoryService
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
+        _updateValidator = new CategoryUpdateValidator();
         _categoryValidator = new CategoryValidator();
     }
 
@@ -39,7 +41,7 @@ public sealed class CategoryManager : ICategoryService
             ValidationResult result = _categoryValidator.Validate(dto);
             if (!result.IsValid)
             {
-                string errorMessages = string.Join(",\n ", result.Errors.Select(e => e.ErrorMessage));
+                string errorMessages = string.Join(",\n", result.Errors.Select(e => e.ErrorMessage));
 
                 return new ErrorResult(errorMessages);
             }
@@ -77,64 +79,158 @@ public sealed class CategoryManager : ICategoryService
     }
 
 
-    public void Modify(CategoryUpdateRequestDto dto)
+    public IResult Modify(CategoryUpdateRequestDto dto)
     {
-        //Gelen dto mapper ile category nesnesine dönüştürülür.
-        Category category = _mapper.Map<Category>(dto);
 
-        //Category nesnesinin güncellenme tarihi ayarlanır.
-        category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
-
-        //Category nesnesi veritabanına dataaccess metoduyla güncellenir.
-        _categoryRepository.Update(category);
-    }
-
-    public void Remove(Guid id)
-    {
-        // ID ile kategori bulunur.
-        Category category = _categoryRepository.Get(c => c.Id.Equals(id));
-
-        // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
-        if (category == null)
+        try
         {
-            throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
+            ValidationResult result = _updateValidator.Validate(dto);
+            if(!result.IsValid)
+            {
+                // Eğer doğrulama başarısızsa, ValidationException fırlatılır.
+                string errorMessages = string.Join(",\n ", result.Errors.Select(e => e.ErrorMessage));
+
+
+                return new ErrorResult($"{ResultMessages.ErrorCategoryUpdated},\nHata Listesi\n{errorMessages}");
+            }
+            var category = _mapper.Map<Category>(dto);
+            category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+
+            _categoryRepository.Update(category);
+            return new SuccessResult(ResultMessages.SuccessCategoryUpdated);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while updating the category: {e.Message}");
         }
 
-        // Kategori nesnesi soft delete mantığıyla işaretlenir.
-        category.IsDeleted = true; // Soft delete logic
-        category.IsActive = false; // Optionally set IsActive to false
 
-        // Güncellenme tarihi ayarlanır.
-        category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
 
-        // Kategori nesnesi veritabanına dataaccess metoduyla güncellenir.
-        _categoryRepository.Update(category);
+
+
+
+
+
+
+        ////Gelen dto mapper ile category nesnesine dönüştürülür.
+        //Category category = _mapper.Map<Category>(dto);
+
+        ////Category nesnesinin güncellenme tarihi ayarlanır.
+        //category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+
+        ////Category nesnesi veritabanına dataaccess metoduyla güncellenir.
+        //_categoryRepository.Update(category);
     }
 
-    public ICollection<CategoryResponseDto> GetAll()
+    public IResult Remove(Guid id)
     {
-        // Tüm kategorileri veritabanından alınır.
-        var categories = _categoryRepository.GetQueryable(c => !c.IsDeleted).ToList();
-
-        // Kategoriler, CategoryResponseDto'ya dönüştürülür.
-        var categoryDtos = _mapper.Map<List<CategoryResponseDto>>(categories);
-        // Kategoriler DTO'ya dönüştürüldükten sonra , DTO listesi döndürülür.
-        return categoryDtos;
-    }
-
-    public CategoryResponseDto GetById(Guid id)
-    {
-        // ID ile kategori bulunur.
-        var category = _categoryRepository.Get(c => c.Id.Equals(id));
-        // Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
-        if (category == null)
+        try
         {
-            throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
+            var category = _categoryRepository.Get(c => c.Id.Equals(id));
+            if (category is null)
+            {
+                return new ErrorResult(ResultMessages.ErrorCategoryGetById);
+            }
+            category.IsDeleted = true; // Soft delete logic
+            category.IsActive = false; // Optionally set IsActive to false
+            category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+            _categoryRepository.Update(category);
+            return new SuccessResult(ResultMessages.SuccessCategoryDeleted);
         }
-        // Kategori, CategoryResponseDto'ya dönüştürülür.
-        var categoryDto = _mapper.Map<CategoryResponseDto>(category);
-        // Dönüştürülen DTO döndürülür.
-        return categoryDto;
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while deleting the category: {e.Message}");
+        }
+
+
+
+
+
+
+
+        //// ID ile kategori bulunur.
+        //Category category = _categoryRepository.Get(c => c.Id.Equals(id));
+
+        //// Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
+        //if (category == null)
+        //{
+        //    throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
+        //}
+
+        //// Kategori nesnesi soft delete mantığıyla işaretlenir.
+        //category.IsDeleted = true; // Soft delete logic
+        //category.IsActive = false; // Optionally set IsActive to false
+
+        //// Güncellenme tarihi ayarlanır.
+        //category.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
+
+        //// Kategori nesnesi veritabanına dataaccess metoduyla güncellenir.
+        //_categoryRepository.Update(category);
+    }
+
+
+    public IDataResult<ICollection<CategoryResponseDto>> GetAll()
+    {
+
+        try
+        {
+            var categories = _categoryRepository.GetAll();
+            if (categories is null || !categories.Any())
+            {
+                return new ErrorDataResult<ICollection<CategoryResponseDto>>(ResultMessages.ErrorCategoryListed);
+            }
+            // Kategoriler, CategoryResponseDto'ya dönüştürülür.
+            var categoryDtos = _mapper.Map<ICollection<CategoryResponseDto>>(categories);
+            return new SuccessDataResult<ICollection<CategoryResponseDto>>(categoryDtos,ResultMessages.SuccessCategoryListed);
+        }
+        catch (Exception e)
+        {
+            return new ErrorDataResult<ICollection<CategoryResponseDto>>($"An error occurred while retrieving categories: {e.Message}");
+        }
+
+
+        //// Tüm kategorileri veritabanından alınır.
+        //var categories = _categoryRepository.GetQueryable(c => !c.IsDeleted).ToList();
+
+        //// Kategoriler, CategoryResponseDto'ya dönüştürülür.
+        //var categoryDtos = _mapper.Map<List<CategoryResponseDto>>(categories);
+        //// Kategoriler DTO'ya dönüştürüldükten sonra , DTO listesi döndürülür.
+        //return categoryDtos;
+    }
+
+    public IDataResult<CategoryResponseDto> GetById(Guid id)
+    {
+        try
+        {
+            var category = _categoryRepository.Get(c => c.Id.Equals(id));
+            if (category == null)
+            {
+                return new ErrorDataResult<CategoryResponseDto>(ResultMessages.ErrorCategoryGetById);
+            }
+            var dto = _mapper.Map<CategoryResponseDto>(category);
+            return new SuccessDataResult<CategoryResponseDto>(dto, ResultMessages.SuccessCategoryGetById);
+
+        }
+        catch (Exception e)
+        {
+            return new ErrorDataResult<CategoryResponseDto>($"An error occurred while retrieving the category: {e.Message}");
+        }
+
+
+
+
+
+        //// ID ile kategori bulunur.
+        //var category = _categoryRepository.Get(c => c.Id.Equals(id));
+        //// Eğer kategori bulunamazsa, KeyNotFoundException fırlatılır.
+        //if (category == null)
+        //{
+        //    throw new KeyNotFoundException(ResultMessages.ErrorCategoryGetById);
+        //}
+        //// Kategori, CategoryResponseDto'ya dönüştürülür.
+        //var categoryDto = _mapper.Map<CategoryResponseDto>(category);
+        //// Dönüştürülen DTO döndürülür.
+        //return categoryDto;
     }
 
     public async Task InsertAsync(CategoryAddRequestDto dto)

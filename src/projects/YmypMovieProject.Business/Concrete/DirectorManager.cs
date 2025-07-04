@@ -4,64 +4,77 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Business.Utilites.Results;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.Business.Constants;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
 using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
-public sealed class DirectorManager //: IDirectorService
+public sealed class DirectorManager : IDirectorService
 {
     private readonly IDirectorRepository _directorRepository;
     private readonly IMapper _mapper;
 
-    public void Insert(DirectorAddRequestDto dto)
+    public DirectorManager(IDirectorRepository directorRepository, IMapper mapper)
     {
-        Director director = _mapper.Map<Director>(dto);
-        _directorRepository.Add(director);
+        _directorRepository = directorRepository;
+        _mapper = mapper;
     }
 
-    public void Modify(DirectorUpdateRequestDto dto)
+
+    public IResult Insert(DirectorAddRequestDto dto)
     {
-        Director director = _mapper.Map<Director>(dto);
-        director.UpdateAt = DateTime.UtcNow;
-        _directorRepository.Update(director);
+        throw new NotImplementedException();
     }
 
-    public void Remove(Guid id)
+    public IResult Modify(DirectorUpdateRequestDto dto)
     {
-        Director director = _directorRepository.Get(d => d.Id == id);
-        if (director == null)
+        throw new NotImplementedException();
+    }
+
+    public IResult Remove(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IDataResult<ICollection<DirectorResponseDto>> GetAll()
+    {
+        try
         {
-            throw new KeyNotFoundException("Director not found.");
+            var directors = _directorRepository.GetAll(d => !d.IsDeleted);
+            if (directors is null || !directors.Any())
+            {
+                return new ErrorDataResult<ICollection<DirectorResponseDto>>(ResultMessages.ErrorListed);
+            }
+            var dtos = _mapper.Map<ICollection<DirectorResponseDto>>(directors);
+            return new SuccessDataResult<ICollection<DirectorResponseDto>>(dtos, ResultMessages.SuccessListed);
         }
-        director.IsActive = false;
-        director.IsDeleted = true;
-        director.UpdateAt = DateTime.UtcNow;
-        _directorRepository.Update(director);
+        catch (Exception e)
+        {
+            return new ErrorDataResult<ICollection<DirectorResponseDto>>($"An error occurred while retrieving directors: {e.Message}");
+        }
     }
 
-    public ICollection<DirectorResponseDto> GetAll()
+    public IDataResult<DirectorResponseDto> GetById(Guid id)
     {
-        var directors = _directorRepository.GetQueryable().ToList();
-        if (directors is null)
+        try
         {
-            return new List<DirectorResponseDto>();
-        }
-        List<DirectorResponseDto> dtos = _mapper.Map<List<DirectorResponseDto>>(directors);
-        return dtos;
-    }
+            var director = _directorRepository.Get(d => d.Id == id);
+            if (director is null)
+            {
+                return new ErrorDataResult<DirectorResponseDto>(ResultMessages.ErrorGetById);
+            }
+            var dto = _mapper.Map<DirectorResponseDto>(director);
 
-    public DirectorResponseDto GetById(Guid id)
-    {
-        var director = _directorRepository.Get(d => d.Id == id);
-        if (director is null)
-        {
-            throw new KeyNotFoundException("Director not found.");
+            return new SuccessDataResult<DirectorResponseDto>(dto, ResultMessages.SuccessGetById);
         }
-        DirectorResponseDto dto = _mapper.Map<DirectorResponseDto>(director);
-        return dto;
+        catch (Exception e)
+        {
+            return new ErrorDataResult<DirectorResponseDto>($"An error occurred while retrieving the director: {e.Message}");
+        }
     }
 
     public Task InsertAsync(DirectorAddRequestDto dto)

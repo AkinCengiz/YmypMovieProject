@@ -24,15 +24,34 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var categories = _categoryService.GetAll();
-        return Ok(categories);
+        var result = _categoryService.GetAll();
+
+        if(!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Data);
+
+        //var categories = _categoryService.GetAll();
+        //return Ok(categories);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(Guid id)
     {
-        var category = _categoryService.GetById(id);
-        return Ok(category);
+        var result = _categoryService.GetById(id);
+        if(!result.Success)
+        {
+            return NotFound(result.Message);
+        }
+        return Ok(result.Data);
+            
+
+
+
+
+        //var category = _categoryService.GetById(id);
+        //return Ok(category);
     }
 
     [HttpPost]
@@ -50,15 +69,23 @@ public class CategoriesController : ControllerBase
     [HttpPut]
     public IActionResult Update(CategoryUpdateRequestDto category)
     {
-        _categoryService.Modify(category);
-        return Content("Kategori güncelleme işlemi başarılı...");
+        var result = _categoryService.Modify(category);
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Message);
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
-        _categoryService.Remove(id);
-        return Content("Kategori silme işlemi başarılı...");
+        var result = _categoryService.Remove(id);
+        if (!result.Success)
+        {
+            return NotFound(result.Message);
+        }
+        return Ok(result.Message);
     }
 
     //[HttpGet("active")]

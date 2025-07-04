@@ -31,5 +31,14 @@ public static class ResultMessages
     public static string ErrorMovieGetById = "Seçilen film bulunamadı.";
 
     public static string SuccessCreated = "Ekleme işlemi başarıyla tamamlandı.";
+    public static string SuccessUpdated = "Güncelleme işlemi başarıyla tamamlandı.";
+    public static string SuccessDeleted = "Silme işlemi başarıyla tamamlandı.";
+    public static string SuccessListed = "Listeleme işlemi başarıyla tamamlandı.";
+    public static string SuccessGetById = "Getirme işlemi başarıyla tamamlandı.";
+    public static string ErrorCreated = "Ekleme işlemi başarısız";
+    public static string ErrorUpdated = "Güncelleme işlemi başarısız.";
+    public static string ErrorDeleted = "Silme işlemi başarısız";
+    public static string ErrorListed = "Listeleme işlemi başarısız";
+    public static string ErrorGetById = "Getirme işlemi başarısız";
 
 }

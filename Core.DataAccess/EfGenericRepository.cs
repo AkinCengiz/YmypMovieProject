@@ -14,8 +14,8 @@ public abstract class EfGenericRepository<T, TContext> : IGenericRepository<T>, 
     where TContext : DbContext
 {
     //protected readonly TContext _context;
-    protected TContext Context { get; }
-    protected DbSet<T> _dbSet;
+    protected readonly TContext Context;
+    protected readonly DbSet<T> _dbSet;
 
     protected EfGenericRepository(TContext context)
     {

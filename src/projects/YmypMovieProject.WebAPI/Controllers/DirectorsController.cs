@@ -22,8 +22,12 @@ public class DirectorsController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var directors = _directorService.GetAll();
-        return Ok(directors);
+        var result = _directorService.GetAll();
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Data);
     }
     [HttpGet("FullInfo")]
     public IActionResult GetFullInfo()
@@ -32,10 +36,14 @@ public class DirectorsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetDirector(string id)
+    public IActionResult GetDirector(Guid id)
     {
-        var director = _directorService.GetById(Guid.Parse(id));
-        return Ok(director);
+        var result = _directorService.GetById(id);
+        if (!result.Success)
+        {
+            return NotFound(result.Message);
+        }
+        return Ok(result.Data);
     }
     [HttpGet("GetAllIsActive")]
     public IActionResult GetAllIsActive()

@@ -11,15 +11,15 @@ namespace Core.Business
 { 
     public interface IGenericService<TEntity, TResponseDto,in TCreateDto,in TUpdateDto> 
         where TEntity : class, IEntity, new()
-        where TResponseDto : class, IDto
-        where TCreateDto : class, IDto
-        where TUpdateDto : class, IDto
+        where TResponseDto : class, IResponseDto
+        where TCreateDto : class, ICreateDto
+        where TUpdateDto : class, IUpdateDto
     {
         IResult Insert(TCreateDto dto);
-        void Modify(TUpdateDto dto);
-        void Remove(Guid id);
-        ICollection<TResponseDto> GetAll();
-        TResponseDto GetById(Guid id);
+        IResult Modify(TUpdateDto dto);
+        IResult Remove(Guid id);
+        IDataResult<ICollection<TResponseDto>> GetAll();
+        IDataResult<TResponseDto> GetById(Guid id);
 
 
 
