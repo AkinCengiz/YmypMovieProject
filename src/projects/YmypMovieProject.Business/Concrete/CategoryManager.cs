@@ -169,12 +169,12 @@ public sealed class CategoryManager : ICategoryService
     }
 
 
-    public IDataResult<ICollection<CategoryResponseDto>> GetAll()
+    public IDataResult<ICollection<CategoryResponseDto>> GetAll(bool deleted)
     {
 
         try
         {
-            var categories = _categoryRepository.GetAll();
+            var categories = _categoryRepository.GetAll(c => c.IsDeleted == deleted);
             if (categories is null || !categories.Any())
             {
                 return new ErrorDataResult<ICollection<CategoryResponseDto>>(ResultMessages.ErrorCategoryListed);
@@ -197,6 +197,26 @@ public sealed class CategoryManager : ICategoryService
         //// Kategoriler DTO'ya dönüştürüldükten sonra , DTO listesi döndürülür.
         //return categoryDtos;
     }
+
+    //public IDataResult<ICollection<CategoryResponseDto>> GetAllDeleted()
+    //{
+    //    try
+    //    {
+    //        var categories = _categoryRepository.GetAll(c => c.IsDeleted);
+    //        if (categories is null || !categories.Any())
+    //        {
+    //            return new ErrorDataResult<ICollection<CategoryResponseDto>>(ResultMessages.ErrorCategoryListed);
+    //        }
+    //        // Kategoriler, CategoryResponseDto'ya dönüştürülür.
+    //        var categoryDtos = _mapper.Map<ICollection<CategoryResponseDto>>(categories);
+    //        return new SuccessDataResult<ICollection<CategoryResponseDto>>(categoryDtos, ResultMessages.SuccessCategoryListed);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return new ErrorDataResult<ICollection<CategoryResponseDto>>($"An error occurred while retrieving categories: {e.Message}");
+    //    }
+
+    //}
 
     public IDataResult<CategoryResponseDto> GetById(Guid id)
     {

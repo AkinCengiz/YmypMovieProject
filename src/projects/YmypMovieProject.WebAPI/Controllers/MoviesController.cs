@@ -19,7 +19,7 @@ public class MoviesController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var movies = _movieService.GetAll();
+        var movies = _movieService.GetAll(false);
         return Ok(movies);
     }
 

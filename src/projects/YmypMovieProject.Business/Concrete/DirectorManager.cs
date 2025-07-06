@@ -40,11 +40,11 @@ public sealed class DirectorManager : IDirectorService
         throw new NotImplementedException();
     }
 
-    public IDataResult<ICollection<DirectorResponseDto>> GetAll()
+    public IDataResult<ICollection<DirectorResponseDto>> GetAll(bool deleted)
     {
         try
         {
-            var directors = _directorRepository.GetAll(d => !d.IsDeleted);
+            var directors = _directorRepository.GetAll(d => d.IsDeleted == deleted);
             if (directors is null || !directors.Any())
             {
                 return new ErrorDataResult<ICollection<DirectorResponseDto>>(ResultMessages.ErrorListed);
@@ -57,6 +57,24 @@ public sealed class DirectorManager : IDirectorService
             return new ErrorDataResult<ICollection<DirectorResponseDto>>($"An error occurred while retrieving directors: {e.Message}");
         }
     }
+
+    //public IDataResult<ICollection<DirectorResponseDto>> GetAllDeleted()
+    //{
+    //    try
+    //    {
+    //        var directors = _directorRepository.GetAll(d => d.IsDeleted);
+    //        if (directors is null || !directors.Any())
+    //        {
+    //            return new ErrorDataResult<ICollection<DirectorResponseDto>>(ResultMessages.ErrorListed);
+    //        }
+    //        var dtos = _mapper.Map<ICollection<DirectorResponseDto>>(directors);
+    //        return new SuccessDataResult<ICollection<DirectorResponseDto>>(dtos, ResultMessages.SuccessListed);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return new ErrorDataResult<ICollection<DirectorResponseDto>>($"An error occurred while retrieving directors: {e.Message}");
+    //    }
+    //}
 
     public IDataResult<DirectorResponseDto> GetById(Guid id)
     {

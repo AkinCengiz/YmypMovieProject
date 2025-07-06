@@ -22,13 +22,26 @@ public class DirectorsController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _directorService.GetAll();
+        var result = _directorService.GetAll(false);
         if (!result.Success)
         {
             return BadRequest(result.Message);
         }
         return Ok(result.Data);
     }
+
+    [HttpGet("[action]")]
+    public IActionResult GetAllDeleted()
+    {
+        var result = _directorService.GetAll(true);
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Data);
+    }
+
+
     [HttpGet("FullInfo")]
     public IActionResult GetFullInfo()
     {

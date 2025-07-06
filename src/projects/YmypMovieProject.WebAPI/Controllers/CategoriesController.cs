@@ -36,6 +36,20 @@ public class CategoriesController : ControllerBase
         //return Ok(categories);
     }
 
+    [HttpGet("[action]")]
+    public IActionResult GetAllDeleted()
+    {
+        var result = _categoryService.GetAll(true);
+        if(!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Data);
+
+        //var categories = _categoryService.GetAllDeleted();
+        //return Ok(categories);
+    }
+
     [HttpGet("{id}")]
     public IActionResult GetById(Guid id)
     {
