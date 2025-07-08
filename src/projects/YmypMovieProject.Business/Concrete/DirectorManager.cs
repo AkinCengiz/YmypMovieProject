@@ -27,17 +27,53 @@ public sealed class DirectorManager : IDirectorService
 
     public IResult Insert(DirectorAddRequestDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var director = _mapper.Map<Director>(dto);
+            _directorRepository.Add(director);
+            return new SuccessResult(ResultMessages.SuccessCreated);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
+        }
     }
 
     public IResult Modify(DirectorUpdateRequestDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var director = _mapper.Map<Director>(dto);
+            director.UpdateAt = DateTime.Now;
+            _directorRepository.Update(director);
+            return new SuccessResult(ResultMessages.SuccessUpdated);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
+        }
     }
 
     public IResult Remove(Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var director = _directorRepository.Get(d => d.Id == id);
+            if (director is null)
+            {
+                return new ErrorResult(ResultMessages.ErrorGetById);
+            }
+
+            director.IsDeleted = true;
+            director.IsActive = false;
+            director.UpdateAt = DateTime.Now;
+            _directorRepository.Update(director);
+            return new SuccessResult(ResultMessages.SuccessDeleted);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
+        }
     }
 
     public IDataResult<ICollection<DirectorResponseDto>> GetAll(bool deleted)
@@ -118,5 +154,24 @@ public sealed class DirectorManager : IDirectorService
     public Task<DirectorResponseDto> GetByIdAsync(Guid id)
     {
         throw new NotImplementedException();
+    }
+
+    public IDataResult<List<DirectorDetailDto>> GetAllFullInfo()
+    {
+        try
+        {
+            var directors = _directorRepository.GetQueryable().Include(d => d.Movies).ThenInclude(m => m.Actors).ToList();
+            if (directors is null)
+            {
+                return new ErrorDataResult<List<DirectorDetailDto>>(ResultMessages.ErrorListed);
+            }
+
+            var directorsDto = _mapper.Map<List<DirectorDetailDto>>(directors);
+            return new SuccessDataResult<List<DirectorDetailDto>>(directorsDto, ResultMessages.SuccessListed);
+        }
+        catch (Exception e)
+        {
+            return new ErrorDataResult<List<DirectorDetailDto>>($"An error occurred while retrieving the director: {e.Message}");
+        }
     }
 }

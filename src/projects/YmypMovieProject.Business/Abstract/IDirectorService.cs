@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Business.Utilites.Results;
 using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Entities;
@@ -15,7 +16,7 @@ public interface IDirectorService : IGenericService<Director,DirectorResponseDto
     //List<Director> GetByFirstName(string firstname);
     //List<Director> GetByLastName(string lastname);
     //Director GetByFullName(string firstname, string lastname);
-    //List<Director> GetAllFullInfo();
+    IDataResult<List<DirectorDetailDto>> GetAllFullInfo();
     //void Insert(DirectorAddRequestDto dto);
     //void Modify(DirectorUpdateRequestDto dto);
     //void Remove(Guid id);

@@ -45,7 +45,13 @@ public class DirectorsController : ControllerBase
     [HttpGet("FullInfo")]
     public IActionResult GetFullInfo()
     {
-        return Ok();
+        var result = _directorService.GetAllFullInfo();
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -77,5 +83,40 @@ public class DirectorsController : ControllerBase
         //}).ToList();
         return Ok();
     }
+
+    [HttpPost]
+    public IActionResult CreateDirector(DirectorAddRequestDto dto)
+    {
+        var result = _directorService.Insert(dto);
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Message);
+    }
+
+    [HttpPut]
+    public IActionResult UpdateDirector(DirectorUpdateRequestDto dto)
+    {
+        var result = _directorService.Modify(dto);
+        if (result.Success)
+        {
+            return Ok(result.Message);
+        }
+
+        return BadRequest(result.Message);
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteDirector(Guid id)
+    {
+        var result = _directorService.Remove(id);
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Message);
+    }
+
 }
 //{ }
