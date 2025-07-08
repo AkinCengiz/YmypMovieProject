@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Business;
+using Core.Business.Utilites.Results;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Business.Abstract;
+using YmypMovieProject.Business.Constants;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
 using YmypMovieProject.Entity.Dtos.Movies;
 using YmypMovieProject.Entity.Entities;
 
 namespace YmypMovieProject.Business.Concrete;
-public sealed class MovieManager //: IMovieService
+public sealed class MovieManager : IMovieService
 {
     private readonly IMovieRepository _movieRepository;
     private readonly IMapper _mapper;
@@ -22,63 +25,96 @@ public sealed class MovieManager //: IMovieService
         _mapper = mapper;
     }
 
-    public void Insert(MovieAddRequestDto dto)
-    {
-        Movie movie = _mapper.Map<Movie>(dto);
-        _movieRepository.Add(movie);
-    }
 
-    public void Modify(MovieUpdateRequestDto dto)
+    public IResult Insert(MovieAddRequestDto dto)
     {
-        var movie = _mapper.Map<Movie>(dto);
-        movie.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
-        _movieRepository.Update(movie);
-    }
-
-    public void Remove(Guid id)
-    {
-        var movie = _movieRepository.Get(m => m.Id.Equals(id));
-        if (movie == null)
+        try
         {
-            throw new KeyNotFoundException($"Movie with ID {id} not found.");
+            var movie = _mapper.Map<Movie>(dto);
+            _movieRepository.Add(movie);
+            return new SuccessResult(ResultMessages.SuccessCreated);
         }
-        movie.IsDeleted = true; // Soft delete logic
-        movie.IsActive = false; // Optionally set IsActive to false
-        movie.UpdateAt = DateTime.Now; // Ensure UpdatedDate is set to current time
-        _movieRepository.Update(movie);
-    }
-
-    public ICollection<MovieResponseDto> GetAll()
-    {
-        var movies = _movieRepository.GetAll(m => !m.IsDeleted);
-        var movieDtos = _mapper.Map<ICollection<MovieResponseDto>>(movies);
-        return movieDtos;
-    }
-
-    public MovieResponseDto GetById(Guid id)
-    {
-        var movie = _movieRepository.Get(m => m.Id.Equals(id));
-
-        if (movie == null)
+        catch (Exception e)
         {
-            throw new KeyNotFoundException($"Movie with ID {id} not found.");
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
         }
-        var movieDto = _mapper.Map<MovieResponseDto>(movie);
-        return movieDto;
     }
 
-    public List<MovieDetailDto> GetMoviesWithFullInfo()
+    public IResult Modify(MovieUpdateRequestDto dto)
     {
-        var movies = _movieRepository.GetQueryable(m => !m.IsDeleted)
-            .Include(m => m.Category)
-            .Include(m => m.Director)
-            .Include(m => m.Actors).ToList();
-
-        var movieDetails = _mapper.Map<List<MovieDetailDto>>(movies);
-        return movieDetails;
+        try
+        {
+            var movie = _mapper.Map<Movie>(dto);
+            movie.UpdateAt = DateTime.Now;
+            _movieRepository.Update(movie);
+            return new SuccessResult(ResultMessages.SuccessUpdated);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
+        }
     }
 
-    public async Task InsertAsync(MovieAddRequestDto dto)
+    public IResult Remove(Guid id)
+    {
+        try
+        {
+            var movie = _movieRepository.Get(m => m.Id == id);
+            if (movie == null)
+            {
+                return new ErrorResult(ResultMessages.ErrorGetById);
+            }
+            movie.IsDeleted = true;
+            movie.IsActive = false;
+            movie.UpdateAt = DateTime.Now;
+            _movieRepository.Update(movie);
+            return new SuccessResult(ResultMessages.SuccessDeleted);
+        }
+        catch (Exception e)
+        {
+            return new ErrorResult($"An error occurred while retrieving directors: {e.Message}");
+        }
+    }
+
+    public IDataResult<ICollection<MovieResponseDto>> GetAll(bool deleted = false)
+    {
+        try
+        {
+            var movies = _movieRepository.GetAll(m => m.IsDeleted == false);
+            if (movies is null)
+            {
+                return new ErrorDataResult<ICollection<MovieResponseDto>>(ResultMessages.ErrorListed);
+            }
+
+            var movieDtos = _mapper.Map<List<MovieResponseDto>>(movies);
+            return new SuccessDataResult<ICollection<MovieResponseDto>>(movieDtos, ResultMessages.SuccessListed);
+        }
+        catch (Exception e)
+        {
+            return new ErrorDataResult<ICollection<MovieResponseDto>>($"An error occurred while retrieving directors: {e.Message}");
+        }
+    }
+
+    public IDataResult<MovieResponseDto> GetById(Guid id)
+    {
+        try
+        {
+            var movie = _movieRepository.Get(m => m.Id == id);
+            if (movie == null)
+            {
+                return new ErrorDataResult<MovieResponseDto>(ResultMessages.ErrorGetById);
+            }
+
+            var dto = _mapper.Map<MovieResponseDto>(movie);
+            return new SuccessDataResult<MovieResponseDto>(dto, ResultMessages.SuccessGetById);
+        }
+        catch (Exception e)
+        {
+            return new ErrorDataResult<MovieResponseDto>($"An error occurred while retrieving directors: {e.Message}");
+        }
+    }
+
+    public Task InsertAsync(MovieAddRequestDto dto)
     {
         throw new NotImplementedException();
     }
@@ -102,4 +138,11 @@ public sealed class MovieManager //: IMovieService
     {
         throw new NotImplementedException();
     }
+
+    public IDataResult<List<MovieDetailDto>> GetMoviesWithFullInfo()
+    {
+        throw new NotImplementedException();
+    }
+
+    
 }

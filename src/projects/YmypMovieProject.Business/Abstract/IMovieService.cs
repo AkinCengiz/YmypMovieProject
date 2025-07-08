@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Business.Utilites.Results;
 using YmypMovieProject.Entity.Dtos.Movies;
 using YmypMovieProject.Entity.Entities;
 
@@ -16,6 +17,6 @@ public interface IMovieService : IGenericService<Movie,MovieResponseDto,MovieAdd
     //List<Movie> GetByGreaterThanIMDB(decimal imdb);
     //List<Movie> GetByCategoryId(Guid categoryId);
     //List<Movie> GetByDirectorId(Guid directorId);
-    List<MovieDetailDto> GetMoviesWithFullInfo();
+    IDataResult<List<MovieDetailDto>> GetMoviesWithFullInfo();
     
 }
