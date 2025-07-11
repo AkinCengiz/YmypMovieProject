@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YmypMovieProject.Entity.Dtos.Actors;
 using YmypMovieProject.Entity.Dtos.Categories;
 using YmypMovieProject.Entity.Dtos.Directors;
 using YmypMovieProject.Entity.Dtos.Movies;
@@ -32,6 +33,12 @@ public sealed class AutoMapperConfig : Profile
         CreateMap<MovieUpdateRequestDto, Movie>();
         CreateMap<Movie, MovieDetailDto>().ForMember(m => m.Players, option =>
             option.MapFrom(m => m.Actors.Select(a => $"{a.FirstName} {a.LastName}").ToHashSet()));
+
+        //Mapping configurations for Actor and DTOs
+        CreateMap<Actor, ActorResponseDto>();
+        CreateMap<ActorAddRequestDto, Actor>();
+        CreateMap<ActorUpdateRequestDto, Actor>();
+        CreateMap<Actor, ActorDetailDto>();
 
     }
 }

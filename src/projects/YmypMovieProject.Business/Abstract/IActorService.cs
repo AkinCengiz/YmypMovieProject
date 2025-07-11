@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Business.Utilites.Results;
 using YmypMovieProject.Entity.Dtos.Actors;
 using YmypMovieProject.Entity.Entities;
 
@@ -15,7 +16,9 @@ public interface IActorService : IGenericService<Actor,ActorResponseDto,ActorAdd
     //List<Actor> GetByFirstName(string firstname);
     //List<Actor> GetByLastName(string lastname);
     //Actor GetByFullName(string firstname, string lastname);
-    //List<Actor> GetAllByWithMovie();
+    IDataResult<ActorDetailDto> GetActorWithMovies(Guid id);
+
+    IDataResult<ICollection<ActorDetailDto>> GetActorsWithMovies();
     //void Insert(Actor dto);
     //void Modify(Actor dto);
     //void Remove(Guid id);
