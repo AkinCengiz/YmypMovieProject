@@ -27,11 +27,15 @@ public class MoviesController : ControllerBase
         return Ok(result.Data);
     }
 
-    [HttpGet("FullInfo")]
+    [HttpGet("[action]")]
     public IActionResult GetAllFullInfo()//Ödev olarak tamamlanacak.
     {
-        var movies = _movieService.GetMoviesWithFullInfo();
-        return Ok(movies);
+        var result = _movieService.GetMoviesWithFullInfo();
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+        return Ok(result.Data);
     }
     [HttpGet("{id:guid}")]
     public IActionResult GetById([FromRoute(Name = "id")]Guid id)
