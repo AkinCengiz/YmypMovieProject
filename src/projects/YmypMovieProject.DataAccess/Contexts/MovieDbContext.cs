@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entity.Concrete;
 using Microsoft.EntityFrameworkCore;
 using YmypMovieProject.Entity.Entities;
 
@@ -82,6 +83,9 @@ public sealed class MovieDbContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Director> Directors { get; set; }
     public DbSet<Movie> Movies { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<OperationClaim> OperationClaims { get; set; }
+    public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
     //public DbSet<Deneme> Denemes { get; set; }
 }
 

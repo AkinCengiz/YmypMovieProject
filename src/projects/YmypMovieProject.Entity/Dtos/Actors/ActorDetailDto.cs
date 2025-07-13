@@ -16,5 +16,5 @@ public sealed record ActorDetailDto(
     DateTime? BirthDate,
     string Description,
     bool IsActive,
-    MovieResponseDto Movies) : IResponseDto;
+    List<MovieResponseDto> Movies) : IResponseDto;
 
