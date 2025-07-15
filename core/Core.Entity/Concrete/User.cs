@@ -14,3 +14,6 @@ public class User : BaseEntity
     public byte[] PasswordHash { get; set; }
     public string Status { get; set; }
 }
+
+
+
