@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Core.Business.Utilites.Security.Jwt;
 using YmypMovieProject.Business.Abstract;
 using YmypMovieProject.Business.Concrete;
 using YmypMovieProject.DataAccess.Repositories.Abstract;
@@ -22,5 +23,9 @@ public class AutofacBusinessModule : Module
         builder.RegisterType<EfActorRepository>().As<IActorRepository>();
         builder.RegisterType<CategoryManager>().As<ICategoryService>();
         builder.RegisterType<EfCategoryRepository>().As<ICategoryRepository>();
+        builder.RegisterType<UserManager>().As<IUserService>();
+        builder.RegisterType<EfUserRepository>().As<IUserRepository>();
+        builder.RegisterType<AuthManager>().As<IAuthService>();
+        builder.RegisterType<JwtHelper>().As<ITokenHelper>();
     }
 }
