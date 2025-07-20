@@ -13,4 +13,5 @@ public interface IUserService : IGenericService<User,UserResponseDto,UserForRegi
 {
     IDataResult<List<OperationClaim>> GetClaims(User user);
     IDataResult<User> GetByMail(string email);
+    IResult Add(User user);
 }

@@ -1,18 +1,15 @@
-using Core.DataAccess;
-using FluentValidation;
-using Microsoft.AspNetCore.Identity;
-using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using YmypMovieProject.Business.Abstract;
-using YmypMovieProject.Business.Concrete;
+using Core.Business.Utilites.Security.Jwt;
+using Core.Business.Utilites.Security.Jwt.Encryptions;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using YmypMovieProject.Business.DependencyInjection.Autofac;
 using YmypMovieProject.Business.Mappers.Categories;
 using YmypMovieProject.Business.Mappers.Profiles;
 using YmypMovieProject.Business.Validators;
 using YmypMovieProject.DataAccess.Contexts;
-using YmypMovieProject.DataAccess.Repositories.Abstract;
-using YmypMovieProject.DataAccess.Repositories.Concrete.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +21,22 @@ builder.Services.AddCors(options =>
         builder => builder.AllowAnyOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader());
+});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidIssuer = tokenOptions.Issuer,
+        ValidAudience = tokenOptions.Audience,
+        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+
+    };
 });
 
 builder.Services.AddControllers();
@@ -60,10 +73,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 
 app.MapControllers();
 

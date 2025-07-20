@@ -47,6 +47,6 @@ public class AuthController : ControllerBase
         {
             return BadRequest(accessTokenResult.Message);
         }
-        return Ok(result.Data);
+        return Ok(accessTokenResult.Data);
     }
 }

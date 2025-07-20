@@ -37,6 +37,8 @@ public class AuthManager : IAuthService
             Status = ""
         };
 
+        _userService.Add(user);
+
         return new SuccessDataResult<User>(user, ResultMessages.SuccessUserRegister);
     }
 
@@ -58,7 +60,8 @@ public class AuthManager : IAuthService
 
     public IResult UserExists(string email)
     {
-        if (_userService.GetByMail(email) != null)
+        var result = _userService.GetByMail(email);
+        if (result.Data != null)
         {
             return new ErrorResult(ResultMessages.UserExists);
         }

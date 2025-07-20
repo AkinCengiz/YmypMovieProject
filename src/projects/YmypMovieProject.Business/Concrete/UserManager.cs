@@ -30,6 +30,12 @@ public class UserManager : IUserService
         return new SuccessResult(ResultMessages.SuccessUserRegister);
     }
 
+    public IResult Add(User user)
+    {
+        _userRepository.Add(user);
+        return new SuccessResult(ResultMessages.SuccessUserRegister);
+    }
+
     public IResult Modify(UserUpdateRequestDto dto)
     {
         var user = _mapper.Map<User>(dto);
